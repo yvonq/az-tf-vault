@@ -111,7 +111,7 @@ resource "azurerm_virtual_machine" "main" {
     }  
   }
   tags = {
-    Owner = 'YQS"
+    Owner = "YQS"
     environment = "hashicorp-vault"
   }
 }
