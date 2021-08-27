@@ -36,7 +36,7 @@ provider "azuread" {
 #resource "azurerm_virtual_network" "main" {
 #  name                = "${var.prefix}-pipeline-network"
 #  address_space       = ["10.0.0.0/16"]
-#  location            = ${var.resource_group_location}"
+#  location            = "${var.resource_group_location}"
 #  resource_group_name = azurerm_resource_group.main.name
 #}
 #
@@ -49,7 +49,7 @@ provider "azuread" {
 
 resource "azurerm_public_ip" "main" {
   name                = "${var.prefix}-pip"
-  location            = ${var.resource_group_location}"
+  location            = "${var.resource_group_location}"
   resource_group_name =  "${var.resource_group_name}"
   allocation_method   = "Dynamic"
   domain_name_label   = "${var.prefix}-is-testing"
@@ -61,7 +61,7 @@ resource "azurerm_public_ip" "main" {
 
 resource "azurerm_network_interface" "main" {
   name                = "${var.prefix}-nic"
-  location            = ${var.resource_group_location}"
+  location            = "${var.resource_group_location}"
   resource_group_name = azurerm_resource_group.main.name
 
   ip_configuration {
@@ -74,7 +74,7 @@ resource "azurerm_network_interface" "main" {
 
 resource "azurerm_virtual_machine" "main" {
   name                  = "${var.prefix}-vm"
-  location              = ${var.resource_group_location}"
+  location              = "${var.resource_group_location}"
   resource_group_name   = azurerm_resource_group.main.name
   network_interface_ids = [azurerm_network_interface.main.id]
   vm_size               = "Standard_DS1_v2"
@@ -99,7 +99,7 @@ resource "azurerm_virtual_machine" "main" {
     managed_disk_type = "Standard_LRS"
   }
   os_profile {
-    computer_name  = "${var.prefix}-vm"
+    computer_name  = "${var.prefix}-vault-vm"
     admin_username = "testadmin"
     custom_data    = file("setup_vault.sh")
   }
