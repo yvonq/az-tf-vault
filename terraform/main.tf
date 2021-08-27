@@ -37,12 +37,12 @@ provider "azuread" {
 #  name                = "${var.prefix}-pipeline-network"
 #  address_space       = ["10.0.0.0/16"]
 #  location            = "${var.resource_group_location}"
-#  resource_group_name = azurerm_resource_group.main.name
+#  resource_group_name = "${var.resource_group_name}"
 #}
 #
 #resource "azurerm_subnet" "internal" {
 #  name                 = "internal"
-#  resource_group_name  = azurerm_resource_group.main.name
+#  resource_group_name  = "${var.resource_group_name}"
 #  virtual_network_name = azurerm_virtual_network.main.name
 #  address_prefixes     = ["10.0.2.0/24"]
 #}
@@ -62,7 +62,7 @@ resource "azurerm_public_ip" "main" {
 resource "azurerm_network_interface" "main" {
   name                = "${var.prefix}-nic"
   location            = "${var.resource_group_location}"
-  resource_group_name = azurerm_resource_group.main.name
+  resource_group_name = "${var.resource_group_name}"
 
   ip_configuration {
     name                          = "testconfiguration1"
@@ -75,7 +75,7 @@ resource "azurerm_network_interface" "main" {
 resource "azurerm_virtual_machine" "main" {
   name                  = "${var.prefix}-vm"
   location              = "${var.resource_group_location}"
-  resource_group_name   = azurerm_resource_group.main.name
+  resource_group_name   = "${var.resource_group_name}"
   network_interface_ids = [azurerm_network_interface.main.id]
   vm_size               = "Standard_DS1_v2"
 
