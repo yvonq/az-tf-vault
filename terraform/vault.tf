@@ -91,3 +91,53 @@ resource "azurerm_virtual_machine" "vault" {
 	Owner = "YQS"
   }
 }
+####
+resource "azurerm_network_security_group" "vault" {
+  name                = "vault-nsg"
+  location            = azurerm_resource_group.vault.location
+  resource_group_name = azurerm_resource_group.vault.name
+}
+
+resource "azurerm_subnet_network_security_group_association" "vault" {
+  subnet_id                 = azurerm_subnet.vault.id
+  network_security_group_id = azurerm_network_security_group.vault.id
+}
+
+resource "azurerm_network_security_rule" "vault_allow_ssh" {
+  name                        = "SSH"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "var.allowed_source_address_prefixes"
+  destination_port_range      = "22"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.vault.name
+  network_security_group_name = azurerm_network_security_group.vault.name
+}
+resource "azurerm_network_security_rule" "vault_allow_ui" {
+  name                        = "8080"
+  priority                    = 1010
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "var.allowed_source_address_prefixes"
+  destination_port_range      = "8080"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.vault.name
+  network_security_group_name = azurerm_network_security_group.vault.name
+}
+
+resource "azurerm_private_dns_zone" "main" {
+  name                = var.private_dns_zone
+  resource_group_name = azurerm_resource_group.vault.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "vault" {
+  name                  = "vault"
+  resource_group_name   = azurerm_resource_group.vault.name
+  private_dns_zone_name = azurerm_private_dns_zone.main.name
+  virtual_network_id    = azurerm_virtual_network.vault.id
+}

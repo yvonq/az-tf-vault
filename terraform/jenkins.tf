@@ -91,3 +91,53 @@ resource "azurerm_virtual_machine" "jenkins" {
 	Owner = "YQS"
   }
 }
+####
+resource "azurerm_network_security_group" "jenkins" {
+  name                = "jenkins-nsg"
+  location            = azurerm_resource_group.jenkins.location
+  resource_group_name = azurerm_resource_group.jenkins.name
+}
+
+resource "azurerm_subnet_network_security_group_association" "jenkins" {
+  subnet_id                 = azurerm_subnet.jenkins.id
+  network_security_group_id = azurerm_network_security_group.jenkins.id
+}
+
+resource "azurerm_network_security_rule" "jenkins_allow_ssh" {
+  name                        = "SSH"
+  priority                    = 100
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "var.allowed_source_address_prefixes"
+  destination_port_range      = "22"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.jenkins.name
+  network_security_group_name = azurerm_network_security_group.jenkins.name
+}
+resource "azurerm_network_security_rule" "jenkins_allow_ui" {
+  name                        = "8080"
+  priority                    = 1010
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "Tcp"
+  source_port_range           = "var.allowed_source_address_prefixes"
+  destination_port_range      = "8080"
+  source_address_prefix       = "*"
+  destination_address_prefix  = "*"
+  resource_group_name         = azurerm_resource_group.jenkins.name
+  network_security_group_name = azurerm_network_security_group.jenkins.name
+}
+
+resource "azurerm_private_dns_zone" "main" {
+  name                = var.private_dns_zone
+  resource_group_name = azurerm_resource_group.jenkins.name
+}
+
+resource "azurerm_private_dns_zone_virtual_network_link" "jenkins" {
+  name                  = "jenkins"
+  resource_group_name   = azurerm_resource_group.jenkins.name
+  private_dns_zone_name = azurerm_private_dns_zone.main.name
+  virtual_network_id    = azurerm_virtual_network.jenkins.id
+}
