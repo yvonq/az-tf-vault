@@ -29,8 +29,8 @@ resource "azurerm_public_ip" "jenkins" {
 
   tags = {
     environment = "test"
-	project "somfy"
-	Owner "YQS"
+	project = "somfy"
+	Owner = "YQS"
   }
 }
 
@@ -87,7 +87,7 @@ resource "azurerm_virtual_machine" "jenkins" {
   }
   tags = {
      environment = "test"
-	project "somfy"
-	Owner "YQS"
+	project = "somfy"
+	Owner = "YQS"
   }
 }
