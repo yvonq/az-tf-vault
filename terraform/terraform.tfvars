@@ -16,3 +16,4 @@ vm_size = "Standard_E4s_v3"
 
 vm_count = 1
 
+private_dns_zone = "iacsocle.test"

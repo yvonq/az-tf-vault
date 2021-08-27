@@ -19,3 +19,4 @@ variable "jenkins_subnet_address_prefix" {
 variable "vault_subnet_address_prefix" {
 	default = "10.0.2.0/24"
 }
+variable "private_dns_zone" {}
