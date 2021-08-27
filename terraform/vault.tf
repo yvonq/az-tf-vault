@@ -17,7 +17,7 @@ resource "azurerm_subnet" "vault" {
   resource_group_name  = azurerm_resource_group.vault.name
   virtual_network_name = azurerm_virtual_network.vault.name
   address_prefixes       = ["${var.vault_subnet_address_prefix}"]
-  network_security_group_id = azurerm_network_security_group.vault.id
+ 
 }
 
 resource "azurerm_public_ip" "vault" {
@@ -130,7 +130,7 @@ resource "azurerm_network_security_rule" "vault_allow_ui" {
   network_security_group_name = azurerm_network_security_group.vault.name
 }
 
-resource "azurerm_private_dns_zone" "main" {
+resource "azurerm_private_dns_zone" "vault" {
   name                = var.private_dns_zone
   resource_group_name = azurerm_resource_group.vault.name
 }
@@ -138,6 +138,6 @@ resource "azurerm_private_dns_zone" "main" {
 resource "azurerm_private_dns_zone_virtual_network_link" "vault" {
   name                  = "vault"
   resource_group_name   = azurerm_resource_group.vault.name
-  private_dns_zone_name = azurerm_private_dns_zone.main.name
+  private_dns_zone_name = azurerm_private_dns_zone.vault.name
   virtual_network_id    = azurerm_virtual_network.vault.id
 }

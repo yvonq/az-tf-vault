@@ -17,7 +17,7 @@ resource "azurerm_subnet" "jenkins" {
   resource_group_name  = azurerm_resource_group.jenkins.name
   virtual_network_name = azurerm_virtual_network.jenkins.name
   address_prefixes       = ["${var.jenkins_subnet_address_prefix}"]
-  network_security_group_id = azurerm_network_security_group.jenkins.id
+ 
 }
 
 resource "azurerm_public_ip" "jenkins" {
@@ -129,6 +129,8 @@ resource "azurerm_network_security_rule" "jenkins_allow_ui" {
   resource_group_name         = azurerm_resource_group.jenkins.name
   network_security_group_name = azurerm_network_security_group.jenkins.name
 }
+
+
 
 resource "azurerm_private_dns_zone" "jenkins" {
   name                = var.private_dns_zone
