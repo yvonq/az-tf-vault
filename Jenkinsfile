@@ -25,6 +25,7 @@ pipeline {
 								sh """
 										
 								echo "Validate Terraform"
+                                sh scripts/terraform.sh init
 								sh scripts/terraform.sh validate
 								"""
 								   }
