@@ -1,0 +1,23 @@
+---
+  - hosts: all
+    become: yes
+    tasks:
+    - name: Create a new primary partition
+      parted:
+        device: /dev/sdc
+        number: 1
+        state: present
+    - name: Create a xfs filesystem on /dev/sdc1
+      filesystem:
+        fstype: xfs
+        dev: /dev/sdc1
+    - name: Create a directory if it does not exist
+      file:
+        path: /mnt/data
+        state: directory
+    - name: Mount device
+      mount:
+        path: /mnt/data
+        src: /dev/sdc1
+        fstype: xfs
+        state: mounted
