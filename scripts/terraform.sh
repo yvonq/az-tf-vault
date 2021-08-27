@@ -5,7 +5,10 @@ terraform init
 
 if [ $1 == "plan" ]
 then
-    terraform plan -compact-warnings 
+    terraform plan -compact-warnings
+elif [ $1 == "init" ]
+then
+	terraform init && terraform output
 elif [ $1 == "validate" ]
 then
 	terraform validate && terraform output
