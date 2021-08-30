@@ -4,7 +4,7 @@
 resource "azurerm_subnet" "jenkins" {
   name                 = "jenkins-subnet1"
   resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
-  virtual_network_name = azurerm_virtual_network.yqs-tf-demo-rg.name
+  virtual_network_name = azurerm_virtual_network.yqs-tf-demo-network.name
   address_prefixes       = ["${var.jenkins_subnet_address_prefix}"]
  
 }
@@ -83,8 +83,8 @@ resource "azurerm_virtual_machine" "jenkins" {
 ####
 resource "azurerm_network_security_group" "jenkins" {
   name                = "jenkins-nsg"
-  location            = azurerm_resource_group.jenkins.location
-  resource_group_name = azurerm_resource_group.jenkins.name
+  location             = azurerm_resource_group.yqs-tf-demo-rg.location
+  resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
 }
 
 resource "azurerm_subnet_network_security_group_association" "jenkins" {

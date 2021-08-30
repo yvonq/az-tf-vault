@@ -5,7 +5,7 @@
 resource "azurerm_subnet" "vault" {
   name                 = "vault-subnet1"
   resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
-  virtual_network_name = azurerm_virtual_network.yqs-tf-demo-rg.name
+  virtual_network_name = azurerm_virtual_network.yqs-tf-demo-network.name
   address_prefixes       = ["${var.vault_subnet_address_prefix}"]
  
 }
