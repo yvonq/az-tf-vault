@@ -15,11 +15,11 @@ resource "azurerm_public_ip" "vault" {
   location             = azurerm_resource_group.yqs-tf-demo-rg.location
   resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
   allocation_method   = "Dynamic"
-  domain_name_label   = "${var.prefix}-jenkins-is-testing"
+  domain_name_label   = "${var.prefix}-vault-is-testing"
 
   tags = {
     environment = "test"
-	project = "somfy"
+	project = "yqs-tf-demo-rg"
 	Owner = "YQS"
   }
 }
