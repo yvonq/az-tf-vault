@@ -58,7 +58,7 @@ resource "azurerm_virtual_machine" "vault" {
     version   = "latest"
   }
   storage_os_disk {
-    name              = "myosdisk1"
+    name              = "${var.prefix}-vault-diskos1"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"

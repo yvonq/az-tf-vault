@@ -18,7 +18,7 @@ resource "azurerm_public_ip" "jenkins" {
 
   tags = {
     environment = "test"
-	project = "somfy"
+	project = "yqs-tf-demo-rg"
 	Owner = "YQS"
   }
 }
@@ -57,7 +57,7 @@ resource "azurerm_virtual_machine" "jenkins" {
     version   = "latest"
   }
   storage_os_disk {
-    name              = "myosdisk1"
+    name              = "${var.prefix}-jenkins-diskos1"
     caching           = "ReadWrite"
     create_option     = "FromImage"
     managed_disk_type = "Standard_LRS"
