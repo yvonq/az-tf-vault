@@ -1,29 +1,19 @@
 
 #
-resource "azurerm_resource_group" "jenkins" {
-  name     = "yqs-tf-demo-secure"
-  location = "francecentral"
-}
-
-resource "azurerm_virtual_network" "jenkins" {
-  name                = "${var.prefix}-jenkins-network"
-  address_space       = ["10.0.0.0/16"]
-  location            = azurerm_resource_group.jenkins.location
-  resource_group_name = azurerm_resource_group.jenkins.name
-}
+r
 
 resource "azurerm_subnet" "jenkins" {
   name                 = "jenkins-subnet1"
-  resource_group_name  = azurerm_resource_group.jenkins.name
-  virtual_network_name = azurerm_virtual_network.jenkins.name
+  resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
+  virtual_network_name = azurerm_virtual_network.yqs-tf-demo-rg.name
   address_prefixes       = ["${var.jenkins_subnet_address_prefix}"]
  
 }
 
 resource "azurerm_public_ip" "jenkins" {
-  name                = "${var.prefix}-pip"
-  location            = azurerm_resource_group.jenkins.location
-  resource_group_name = azurerm_resource_group.jenkins.name
+  name                = "${var.prefix}-jenkins-pip"
+  location             = azurerm_resource_group.yqs-tf-demo-rg.location
+  resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
   allocation_method   = "Dynamic"
   domain_name_label   = "${var.prefix}-is-testing"
 
@@ -35,9 +25,9 @@ resource "azurerm_public_ip" "jenkins" {
 }
 
 resource "azurerm_network_interface" "jenkins" {
-  name                = "${var.prefix}-nic"
-  location            = azurerm_resource_group.jenkins.location
-  resource_group_name = azurerm_resource_group.jenkins.name
+  name                = "${var.prefix}-jenkins-nic"
+  location             = azurerm_resource_group.yqs-tf-demo-rg.location
+  resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
 
   ip_configuration {
     name                          = "testconfiguration1"
@@ -48,7 +38,7 @@ resource "azurerm_network_interface" "jenkins" {
 }
 
 resource "azurerm_virtual_machine" "jenkins" {
-  name                  = "${var.prefix}-vm"
+  name                  = "${var.prefix}-jenkins-vm"
   location              = azurerm_resource_group.jenkins.location
   resource_group_name   = azurerm_resource_group.jenkins.name
   network_interface_ids = [azurerm_network_interface.jenkins.id]
@@ -74,7 +64,7 @@ resource "azurerm_virtual_machine" "jenkins" {
     managed_disk_type = "Standard_LRS"
   }
   os_profile {
-    computer_name  = "${var.prefix}-vm"
+    computer_name  = "${var.prefix}-jenkins-vm"
     admin_username = "testadmin"
     custom_data    = file("setup_jenkins.sh")
   }
@@ -86,8 +76,8 @@ resource "azurerm_virtual_machine" "jenkins" {
     }  
   }
   tags = {
-     environment = "test"
-	project = "somfy"
+    environment = "test"
+	project = "yqs-tf-demo-rg"
 	Owner = "YQS"
   }
 }
@@ -132,14 +122,10 @@ resource "azurerm_network_security_rule" "jenkins_allow_ui" {
 
 
 
-resource "azurerm_private_dns_zone" "jenkins" {
-  name                = var.private_dns_zone
-  resource_group_name = azurerm_resource_group.jenkins.name
-}
 
 resource "azurerm_private_dns_zone_virtual_network_link" "jenkins" {
   name                  = "jenkins"
   resource_group_name   = azurerm_resource_group.jenkins.name
-  private_dns_zone_name = azurerm_private_dns_zone.jenkins.name
+  private_dns_zone_name = azurerm_private_dns_zone.yqs-tf-demo-network.name
   virtual_network_id    = azurerm_virtual_network.jenkins.id
 }

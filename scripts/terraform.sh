@@ -8,7 +8,7 @@ then
     terraform plan -compact-warnings
 elif [ $1 == "init" ]
 then
-	terraform init -reconfigure
+	terraform init
 elif [ $1 == "validate" ]
 then
 	terraform validate && terraform output
