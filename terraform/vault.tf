@@ -101,7 +101,7 @@ resource "azurerm_network_security_rule" "vault_allow_ssh" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "22"
-  source_address_prefix       = "var.allowed_source_address_prefixes"
+  source_address_prefix       = "${var.allowed_source_address_prefixes}"
   destination_address_prefix  = "*"
   
   resource_group_name         = azurerm_resource_group.yqs-tf-demo-rg.name
@@ -115,7 +115,7 @@ resource "azurerm_network_security_rule" "vault_allow_ui" {
   protocol                    = "Tcp"
   source_port_range           = "*"
   destination_port_range      = "8080"
-  source_address_prefix       = "var.allowed_source_address_prefixes"
+  source_address_prefix       = "${var.allowed_source_address_prefixes}"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.yqs-tf-demo-rg.name
   network_security_group_name = azurerm_network_security_group.vault.name
