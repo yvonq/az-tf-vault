@@ -1,6 +1,5 @@
 
-#
-r
+
 
 resource "azurerm_subnet" "jenkins" {
   name                 = "jenkins-subnet1"
