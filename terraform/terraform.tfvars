@@ -2,7 +2,7 @@ environment = "test"
 
 location = "francecentral"
 
-allowed_source_address_prefixes = "195.135.1.95/32"
+
 
 # private_dns_zone = "irb.test"
 

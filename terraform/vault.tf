@@ -122,10 +122,10 @@ resource "azurerm_network_security_rule" "vault_allow_ui" {
 }
 
 
-
-resource "azurerm_private_dns_zone_virtual_network_link" "vault" {
-  name                  = "vault"
-  resource_group_name         = azurerm_resource_group.yqs-tf-demo-rg.name
-  private_dns_zone_name = azurerm_private_dns_zone.yqs-tf-demo-network.name
-  virtual_network_id    = azurerm_virtual_network.yqs-tf-demo-network.id
-}
+#
+#resource "azurerm_private_dns_zone_virtual_network_link" "vault" {
+#  name                  = "vault"
+#  resource_group_name         = azurerm_resource_group.yqs-tf-demo-rg.name
+#  private_dns_zone_name = azurerm_private_dns_zone.yqs-tf-demo-network.name
+#  virtual_network_id    = azurerm_virtual_network.yqs-tf-demo-network.id
+#}
