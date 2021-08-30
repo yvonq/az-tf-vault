@@ -15,7 +15,7 @@ resource "azurerm_public_ip" "vault" {
   location             = azurerm_resource_group.yqs-tf-demo-rg.location
   resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
   allocation_method   = "Dynamic"
-  domain_name_label   = "${var.prefix}-is-testing"
+  domain_name_label   = "${var.prefix}-jenkins-is-testing"
 
   tags = {
     environment = "test"
@@ -99,9 +99,9 @@ resource "azurerm_network_security_rule" "vault_allow_ssh" {
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "Tcp"
-  source_port_range           = "var.allowed_source_address_prefixes"
+  source_port_range           = "*"
   destination_port_range      = "22"
-  source_address_prefix       = "*"
+  source_address_prefix       = "var.allowed_source_address_prefixes"
   destination_address_prefix  = "*"
   
   resource_group_name         = azurerm_resource_group.yqs-tf-demo-rg.name
@@ -113,9 +113,9 @@ resource "azurerm_network_security_rule" "vault_allow_ui" {
   direction                   = "Inbound"
   access                      = "Allow"
   protocol                    = "Tcp"
-  source_port_range           = "var.allowed_source_address_prefixes"
+  source_port_range           = "*"
   destination_port_range      = "8080"
-  source_address_prefix       = "*"
+  source_address_prefix       = "var.allowed_source_address_prefixes"
   destination_address_prefix  = "*"
   resource_group_name         = azurerm_resource_group.yqs-tf-demo-rg.name
   network_security_group_name = azurerm_network_security_group.vault.name
