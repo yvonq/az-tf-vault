@@ -38,8 +38,8 @@ resource "azurerm_network_interface" "jenkins" {
 
 resource "azurerm_virtual_machine" "jenkins" {
   name                  = "${var.prefix}-jenkins-vm"
-  location              = azurerm_resource_group.jenkins.location
-  resource_group_name   = azurerm_resource_group.jenkins.name
+  location             = azurerm_resource_group.yqs-tf-demo-rg.location
+  resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
   network_interface_ids = [azurerm_network_interface.jenkins.id]
   vm_size               = "Standard_DS1_v2"
 
