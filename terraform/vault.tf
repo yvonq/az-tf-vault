@@ -84,7 +84,7 @@ resource "azurerm_virtual_machine" "vault" {
 ####
 resource "azurerm_network_security_group" "vault" {
   name                = "vault-nsg"
-  resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.location
+  location             = azurerm_resource_group.yqs-tf-demo-rg.location
   resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
 }
 
