@@ -102,7 +102,7 @@ resource "azurerm_network_security_rule" "jenkins_allow_ssh" {
   destination_port_range      = "22"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.jenkins.name
+  resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
   network_security_group_name = azurerm_network_security_group.jenkins.name
 }
 resource "azurerm_network_security_rule" "jenkins_allow_ui" {
@@ -115,7 +115,7 @@ resource "azurerm_network_security_rule" "jenkins_allow_ui" {
   destination_port_range      = "8080"
   source_address_prefix       = "*"
   destination_address_prefix  = "*"
-  resource_group_name         = azurerm_resource_group.jenkins.name
+  resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
   network_security_group_name = azurerm_network_security_group.jenkins.name
 }
 
@@ -124,7 +124,7 @@ resource "azurerm_network_security_rule" "jenkins_allow_ui" {
 
 resource "azurerm_private_dns_zone_virtual_network_link" "jenkins" {
   name                  = "jenkins"
-  resource_group_name   = azurerm_resource_group.jenkins.name
+  resource_group_name  = azurerm_resource_group.yqs-tf-demo-rg.name
   private_dns_zone_name = azurerm_private_dns_zone.yqs-tf-demo-network.name
   virtual_network_id    = azurerm_virtual_network.jenkins.id
 }
